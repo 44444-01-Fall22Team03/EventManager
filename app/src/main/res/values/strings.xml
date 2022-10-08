@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">EventManager</string>
+
+    <string-array name="eventNames">
+        <item>Event1</item>
+        <item>Event2</item>
+        <item>Event3</item>
+    </string-array>
+    <string-array name="eventStartDates">
+        <item>StartDate1</item>
+        <item>StartDate2</item>
+        <item>StartDate3</item>
+    </string-array>
+    <string-array name="eventEndDates">
+        <item>EndDate1</item>
+        <item>EndDate2</item>
+        <item>EndDate3</item>
+    </string-array>
+    <string-array name="eventLocations">
+        <item>Location1</item>
+        <item>Location2</item>
+        <item>Location3</item>
+    </string-array>
+    <string-array name="eventDesc">
+        <item>Event1 Description</item>
+        <item>Event2 Description</item>
+        <item>Event3 Description</item>
+    </string-array>
+    <string-array name="eventNotes">
+        <item>Event1 Notes</item>
+        <item>Event2 Notes</item>
+        <item>Event3 Notes</item>
+    </string-array>
 </resources>
