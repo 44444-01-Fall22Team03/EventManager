@@ -12,13 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:text="Create Event"
+        android:layout_marginTop="60dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="85dp"
-        tools:ignore="MissingConstraints"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/EventName"
@@ -36,10 +37,9 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/createevent"
-         />
+        />
     <EditText
         android:id="@+id/Eventlocation"
         android:layout_width="0dp"
@@ -124,29 +124,27 @@
         app:layout_constraintTop_toBottomOf="@id/Endtime"
         />
 
+    <TextView
+        android:id="@+id/textrepeatend"
+        android:text="RepeatEnd"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Repeat"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilrepeatDropDown"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:layout_width="387dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textrepeatend"
         app:layout_constraintTop_toBottomOf="@id/Repeat">
 
-        <TextView
-            android:id="@+id/textrepeatend"
-            android:text="RepeatEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"/>
         <AutoCompleteTextView
             android:id="@+id/dropdownrepeat"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="40dp"
             android:text="None" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,6 +170,23 @@
 
         />
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create"
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="496dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        tools:layout_editor_absoluteX="250dp"
+        tools:layout_editor_absoluteY="493dp"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
