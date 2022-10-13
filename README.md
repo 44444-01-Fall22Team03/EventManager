@@ -40,7 +40,7 @@
 
 ### Collaborators:
 * [Jaichand Mulakalapalli](https://github.com/jaichandm)
-* [Adithya Krishna Raavi](https://github.com/Adithyakrishna9)
+* [MANOJ_KUMAR_GUDE](https://github.com/manoj2205)
 * [Manikanta Arumilli](https://github.com/manikantaarumilli)
 
 Supervisor:
