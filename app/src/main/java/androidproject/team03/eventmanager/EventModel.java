@@ -38,9 +38,7 @@ public class EventModel {
     }
     private static EventModel theModel = null;
     public static EventModel getSingleton(){
-        if (theModel == null){
-            theModel = new EventModel();
-        }
+        theModel = new EventModel();
         return theModel;
     }
 

@@ -49,7 +49,6 @@ public class EventHomeActivity extends AppCompatActivity {
             startActivity(new Intent(EventHomeActivity.this, CreateEventActivity.class));
         });
 
-
     }
 
     private void setUpEventModels() {
