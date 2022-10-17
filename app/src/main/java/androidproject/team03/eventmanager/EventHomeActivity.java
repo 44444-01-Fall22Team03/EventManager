@@ -4,69 +4,108 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class EventHomeActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
     private ImageView ivCreatebtn;
 
-    ArrayList<EventModel> eventModels1 = new ArrayList<>();
+    private EventModel myModel1 = EventModel.getSingleton();
+    private EventRAdapter eventServer = null;
+    private RecyclerView eventRecycler= null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_home);
-
+        setUpEventModels();
         initDatePicker();
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
         ivCreatebtn = findViewById(R.id.ivCreateEvent);
 
+
         ivCreatebtn.setOnClickListener(v -> {
             startActivity(new Intent(EventHomeActivity.this, CreateEventActivity.class));
         });
 
-        RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
-        setUpEventModels();
 
-        EventRAdapter adapter = new EventRAdapter(this, eventModels1);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-    private void setUpEventModels(){
-        String[] event_names = getResources().getStringArray(R.array.eventNames);
-        String[] event_st_dts = getResources().getStringArray(R.array.eventStartDates);
-        String[] event_end_dts = getResources().getStringArray(R.array.eventEndDates);
-        String[] event_locs = getResources().getStringArray(R.array.eventLocations);
-        String[] event_descs = getResources().getStringArray(R.array.eventDesc);
-        String[] event_notes = getResources().getStringArray(R.array.eventNotes);
 
-        for( int i = 0; i<event_names.length;i++){
-            eventModels1.add(new EventModel(event_names[i], event_st_dts[i],event_end_dts[i],event_locs[i],event_descs[i],event_notes[i]));
-        }
+    private void setUpEventModels() {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+        Log.v("setUpEventModels", "fetched data");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                for (ParseObject event : objects){
+                    if (e == null) {
+                        String event_ID= event.getString("eventID");
+                        String event_Name= event.getString("eventName");
+                        String event_Description= event.getString("eventDescription");
+                        String event_Location= event.getString("eventLocation");
+                        String event_Recurrence=event.getString("eventRecurrence");
+                        String event_Repeat_Every=event.getString("eventRepeatEvery");
+                        boolean is_Sun = event.getBoolean("isSun");
+                        boolean is_Mon= event.getBoolean("isMon");
+                        boolean is_Tues= event.getBoolean("isTues");
+                        boolean is_Wed= event.getBoolean("isWed");
+                        boolean is_Thurs= event.getBoolean("isThurs");
+                        boolean is_Fri= event.getBoolean("isFri");
+                        boolean is_Sat= event.getBoolean("isSat");
+                        String event_End_Dt = String.valueOf(event.getDate("eventEndDt"));
+                        String event_Start_Dt= String.valueOf(event.getDate("eventStartDt"));
+                        String event_Repeat_EndDt= String.valueOf(event.getDate("eventRepeatEndDt"));
+
+                        myModel1.eventsList.add(new EventModel.Events(event_ID, event_Name, event_Start_Dt, event_End_Dt, event_Location, event_Description, event_Repeat_EndDt, event_Recurrence, event_Repeat_Every, is_Sun,  is_Mon,  is_Tues,  is_Wed,  is_Thurs,  is_Fri,  is_Sat));
+
+                        Log.v("description", String.valueOf(event.getString("eventDescription")));
+
+                        Log.v("Size", String.valueOf(myModel1.eventsList.size()));
+
+                    } else {
+                        Toast.makeText(EventHomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                    eventRecycler = findViewById(R.id.mRecyclerView);
+
+
+                    eventServer = new EventRAdapter(EventHomeActivity.this, myModel1);
+
+                    Log.v("ItemCount", String.valueOf(eventServer.getItemCount())  );
+                    eventRecycler.setAdapter(eventServer);
+                    eventRecycler.setLayoutManager(new LinearLayoutManager(EventHomeActivity.this));
+                }
+            }
+        });
     }
-    private String getTodaysDate()
+
+    public void openDatePicker(View view)
     {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        month = month + 1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(day, month, year);
+        datePickerDialog.show();
     }
-
-    private void initDatePicker()
-    {
+    private void initDatePicker()    {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
         {
             @Override
@@ -87,12 +126,19 @@ public class EventHomeActivity extends AppCompatActivity {
         //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
     }
-
     private String makeDateString(int day, int month, int year)
     {
         return getMonthFormat(month) + " " + day + " " + year;
     }
 
+    private String getTodaysDate()    {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        month = month + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        return makeDateString(day, month, year);
+    }
     private String getMonthFormat(int month)
     {
         if(month == 1)
@@ -124,8 +170,5 @@ public class EventHomeActivity extends AppCompatActivity {
         return "JAN";
     }
 
-    public void openDatePicker(View view)
-    {
-        datePickerDialog.show();
-    }
+
 }

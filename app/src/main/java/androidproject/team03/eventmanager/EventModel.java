@@ -1,62 +1,52 @@
 package androidproject.team03.eventmanager;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class EventModel {
-    private String eventName, eventStDT, eventEndDt,eventLocation, eventDescription, eventNotes;
+    public static class Events {
+        public String eventID;
+        public String eventName;
+        public String eventStartDt;
+        public String eventEndDt;
+        public String eventLocation;
+        public String eventDescription;
+        public String eventRepeatEndDt;
+        public String eventRecurrence;
+        public String eventRepeatEvery;
+        public boolean isSun, isMon, isTues, isWed, isThurs, isFri, isSat;
 
-    public EventModel(String eventName,String eventStDT,String eventEndDt,String eventLocation, String eventDescription, String eventNotes) {
-        this.eventName = eventName;
-        this.eventStDT = eventStDT;
-        this.eventEndDt = eventEndDt;
-        this.eventLocation = eventLocation;
-        this.eventDescription = eventDescription;
-        this.eventNotes = eventNotes;
+        public Events(String eventID, String eventName, String eventStartDt, String eventEndDt, String eventLocation, String eventDescription, String eventRepeatEndDt, String eventRecurrence, String eventRepeatEvery, boolean isSun, boolean isMon, boolean isTues, boolean isWed, boolean isThurs, boolean isFri, boolean isSat) {
+            this.eventName = eventName;
+            this.eventStartDt = eventStartDt;
+            this.eventEndDt = eventEndDt;
+            this.eventLocation = eventLocation;
+            this.eventDescription = eventDescription;
+            this.eventRepeatEndDt = eventRepeatEndDt;
+            this.eventRecurrence = eventRecurrence;
+            this.eventRepeatEvery = eventRepeatEvery;
+            this.isSun = isSun;
+            this.isMon = isMon;
+            this.isTues = isTues;
+            this.isWed = isWed;
+            this.isThurs = isThurs;
+            this.isFri = isFri;
+            this.isSat = isSat;
+            this.eventID= eventID;
+        }
+    }
+    private static EventModel theModel = null;
+    public static EventModel getSingleton(){
+        if (theModel == null){
+            theModel = new EventModel();
+        }
+        return theModel;
     }
 
-    public String getEventName() {
-        return eventName;
+    public ArrayList<Events> eventsList;
+    private EventModel(){
+        eventsList = new ArrayList<Events>();
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
-
-    public String getEventNotes() {
-        return eventNotes;
-    }
-
-    public void setEventNotes(String eventNotes) {
-        this.eventNotes = eventNotes;
-    }
-
-    public String getEventStDT() {
-        return eventStDT;
-    }
-
-    public void setEventStDT(String eventStDT) {
-        this.eventStDT = eventStDT;
-    }
-
-    public String getEventEndDt() {
-        return eventEndDt;
-    }
-
-    public void setEventEndDt(String eventEndDt) {
-        this.eventEndDt = eventEndDt;
-    }
-
-    public String getEventLocation() {
-        return eventLocation;
-    }
-
-    public void setEventLocation(String eventLocation) {
-        this.eventLocation = eventLocation;
-    }
 }
