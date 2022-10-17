@@ -36,7 +36,27 @@
       android:text="Every"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/tivDropDown1" />
+      app:layout_constraintTop_toBottomOf="@+id/spinnerEvery" />
+
+  <Spinner
+      android:id="@+id/spinnerEvery"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:spinnerMode="dropdown"
+      android:layout_margin="25dp"
+      app:layout_constraintTop_toBottomOf="@id/tvRecurrence"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
+
+  <Spinner
+      android:id="@+id/spinnerRepeatEvery"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:spinnerMode="dropdown"
+      android:layout_margin="25dp"
+      app:layout_constraintTop_toBottomOf="@+id/tvEvery"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
 
   <Button
       android:id="@+id/btnRepeatCancel"
@@ -57,44 +77,6 @@
       app:layout_constraintStart_toEndOf="@id/btnRepeatCancel"
       app:layout_constraintTop_toBottomOf="@+id/checkBoxDays"/>
 
-  <com.google.android.material.textfield.TextInputLayout
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-      android:id="@+id/tivDropDown1"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="25dp"
-      android:layout_marginEnd="25dp"
-      android:layout_marginTop="10dp"
-      app:layout_constraintTop_toBottomOf="@id/tvRecurrence"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" >
-    <AutoCompleteTextView
-        android:id="@+id/tvDropDown1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="Daily" />
-  </com.google.android.material.textfield.TextInputLayout>
-
-  <com.google.android.material.textfield.TextInputLayout
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-      android:id="@+id/tivDropDown2"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="25dp"
-      android:layout_marginEnd="25dp"
-      android:layout_marginTop="10dp"
-      app:layout_constraintTop_toBottomOf="@id/tvEvery"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" >
-    <AutoCompleteTextView
-        android:id="@+id/tvDropDown2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="EveryDay" />
-
-  </com.google.android.material.textfield.TextInputLayout>
 
   <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/checkBoxDays"
@@ -103,7 +85,7 @@
       android:layout_marginStart="25dp"
       android:layout_marginEnd="25dp"
       android:layout_marginTop="10dp"
-      app:layout_constraintTop_toBottomOf="@id/tivDropDown2"
+      app:layout_constraintTop_toBottomOf="@id/spinnerRepeatEvery"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent">
     <CheckBox
@@ -167,4 +149,3 @@
   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
