@@ -66,7 +66,7 @@ public class CreateEventActivity extends AppCompatActivity {
                         calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
                         calendar.set(Calendar.MINUTE,minute);
 
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-DD HH:mm");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm");
                         date_time_in.setText(simpleDateFormat.format(calendar.getTime()));
 
                     }
