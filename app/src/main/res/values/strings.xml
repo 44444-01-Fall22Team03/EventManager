@@ -14,4 +14,14 @@
         <item>Yearly</item>
     </string-array>
 
+
+    <!-- Strings related to Registration -->
+
+    <string name="label_password">Password</string>
+    <string name="label_username">Username</string>
+    <string name="label_email">Email ID</string>
+    <string name="label_registration">Registration</string>
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="btn_register">Register</string>
+    <string name="signInHint">Already have an account? Sign in here</string>
 </resources>
