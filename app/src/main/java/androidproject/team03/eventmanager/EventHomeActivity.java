@@ -15,14 +15,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class EventHomeActivity extends AppCompatActivity {
@@ -141,32 +138,32 @@ public class EventHomeActivity extends AppCompatActivity {
     private String getMonthFormat(int month)
     {
         if(month == 1)
-            return "JAN";
+            return "Jan";
         if(month == 2)
-            return "FEB";
+            return "Feb";
         if(month == 3)
-            return "MAR";
+            return "Mar";
         if(month == 4)
-            return "APR";
+            return "Apr";
         if(month == 5)
-            return "MAY";
+            return "May";
         if(month == 6)
-            return "JUN";
+            return "Jun";
         if(month == 7)
-            return "JUL";
+            return "Jul";
         if(month == 8)
-            return "AUG";
+            return "Aug";
         if(month == 9)
-            return "SEP";
+            return "Sep";
         if(month == 10)
-            return "OCT";
+            return "Oct";
         if(month == 11)
-            return "NOV";
+            return "Nov";
         if(month == 12)
-            return "DEC";
+            return "Dec";
 
         //default should never happen
-        return "JAN";
+        return "Jan";
     }
 
 

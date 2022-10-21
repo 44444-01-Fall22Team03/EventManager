@@ -71,16 +71,6 @@
             app:layout_constraintStart_toEndOf="@id/datePickerButton"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="DateSearch" />
-        <ImageView
-            android:id="@+id/ivCreateEvent"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="61dp"
-            android:layout_marginEnd="7dp"
-            android:src="@drawable/ic_baseline_add_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="CreateEvent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,6 +83,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="25dp"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <ImageView
+            android:id="@+id/ivCreateEvent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="25dp"
+            android:src="@drawable/ic_baseline_add_circle_outline_24"
+            android:background="@color/darkblue"
+            android:scaleType="centerCrop"
+            android:contentDescription="Logout" />
+    </androidx.cardview.widget.CardView>
 
 
 

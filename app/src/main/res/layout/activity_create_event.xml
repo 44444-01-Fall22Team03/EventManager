@@ -110,8 +110,8 @@
         android:ems="10"
         android:gravity="center"
         android:hint="Repeat"
+        android:textColorLink="@color/purple_700"
         android:backgroundTint="@color/white"
-        android:inputType="textPersonName"
         android:paddingLeft="20dp"
         android:paddingTop="13dp"
         android:paddingRight="20dp"
@@ -126,27 +126,28 @@
 
     <TextView
         android:id="@+id/textrepeatend"
-        android:text="RepeatEnd"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Repeat"/>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilrepeatDropDown"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:text="RepeatEnd :"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textrepeatend"
-        app:layout_constraintTop_toBottomOf="@id/Repeat">
+        android:gravity="center"
+        android:layout_marginEnd="25dp"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnRepeatEndDate"
+        app:layout_constraintTop_toBottomOf="@id/Repeat"/>
 
-        <AutoCompleteTextView
-            android:id="@+id/dropdownrepeat"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="None" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:id="@+id/btnRepeatEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textSize="18sp"
+        android:text="Dec 31 9999"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        android:onClick="openDatePicker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textrepeatend"
+        app:layout_constraintTop_toBottomOf="@id/Repeat"/>
 
     <EditText
         android:id="@+id/Description"
@@ -166,9 +167,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilrepeatDropDown"
-
-        />
+        app:layout_constraintTop_toBottomOf="@+id/textrepeatend"        />
 
     <Button
         android:id="@+id/button3"
