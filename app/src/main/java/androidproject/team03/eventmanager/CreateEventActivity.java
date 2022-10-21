@@ -6,8 +6,11 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -19,13 +22,22 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class CreateEventActivity extends AppCompatActivity {
     EditText date_time_in;
     EditText date_time_end;
+    private ProgressDialog progressDialog;
 
+    private String eName, eLocation, eDescription, eRecurrence="none", eRepeatEvery="none";
+    private Date eStartDt, eRepeatEndDt,eEndDt;
+    boolean booleanIsSun=Boolean.FALSE, booleanIsMon=Boolean.FALSE, booleanIsTues=Boolean.FALSE, booleanIsWed=Boolean.FALSE, booleanIsThurs=Boolean.FALSE, booleanIsFri=Boolean.FALSE, booleanIsSat=Boolean.FALSE;
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
     ActivityResultLauncher<Intent> getResultContent= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -34,6 +46,15 @@ public class CreateEventActivity extends AppCompatActivity {
             if(result != null && result.getResultCode()== RESULT_OK){
                 try {
                     //  Block of code to try
+                    eRecurrence =result.getData().getStringExtra("eventRecurrence");
+                    eRepeatEvery =result.getData().getStringExtra("eventRepeatEvery");
+                    booleanIsSun=result.getData().getBooleanExtra("isSun",Boolean.FALSE);
+                    booleanIsMon=result.getData().getBooleanExtra("isMon", Boolean.FALSE);
+                    booleanIsTues=result.getData().getBooleanExtra("isTues", Boolean.FALSE);
+                    booleanIsWed=result.getData().getBooleanExtra("isWed", Boolean.FALSE);
+                    booleanIsThurs=result.getData().getBooleanExtra("isThus", Boolean.FALSE);
+                    booleanIsFri=result.getData().getBooleanExtra("isFri", Boolean.FALSE);
+                    booleanIsSat=result.getData().getBooleanExtra("isSat", Boolean.FALSE);
                     Log.v("info", "using the result");
 
                 }
@@ -50,6 +71,8 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        progressDialog = new ProgressDialog(this);
         date_time_in =findViewById(R.id.Starttime);
         date_time_end =findViewById(R.id.Endtime);
         createEventBtn=findViewById(R.id.button3);
@@ -61,8 +84,103 @@ public class CreateEventActivity extends AppCompatActivity {
         date_time_end.setInputType(InputType.TYPE_NULL);
         dateButton = findViewById(R.id.btnRepeatEndDate);
 
+
         createEventBtn.setOnClickListener(v -> {
-            startActivity(new Intent(CreateEventActivity.this, EventHomeActivity.class));
+            boolean flagChk =true;
+            EditText eNameET, eStartDtET, eEndDtET, eLocationET, eDescriptionET;
+            Button eRepeatEndDtET;
+            eNameET = findViewById(R.id.EventName);
+            eLocationET = findViewById(R.id.Eventlocation);
+            eDescriptionET = findViewById(R.id.Description);
+            eStartDtET = findViewById(R.id.Starttime);
+            eEndDtET = findViewById(R.id.Endtime);
+            eRepeatEndDtET = findViewById(R.id.btnRepeatEndDate);
+
+            String strName, strStartDtET, strEndDtET, strLocation, strDescription, strRepeatEndDtET;
+
+            strName= eNameET.getText().toString();
+            strStartDtET= eStartDtET.getText().toString();
+            strEndDtET= eEndDtET.getText().toString();
+            strLocation= eLocationET.getText().toString();
+            strDescription= eDescriptionET.getText().toString();
+            strRepeatEndDtET= eRepeatEndDtET.getText().toString();
+
+            if(strName.matches("")){
+                flagChk= Boolean.FALSE;
+                Log.v("strName:","is Empty");
+            }
+            if(strStartDtET.matches("")){
+                flagChk= Boolean.FALSE;
+                Log.v("strStartDtET:","is Empty");
+            }
+            if(strEndDtET.matches("")){
+                flagChk= Boolean.FALSE;
+                Log.v("strEndDtET:","is Empty");
+            }
+            if(strLocation.matches("")){
+                flagChk= Boolean.FALSE;
+                Log.v("strLocation:","is Empty");
+            }
+            if(strDescription.matches("")){
+                flagChk= Boolean.FALSE;
+                Log.v("strName:","is Empty");
+            }
+            if(strRepeatEndDtET.matches("")){
+                flagChk= Boolean.FALSE;
+                Log.v("strName:","is Empty");
+            }
+
+            if(flagChk){
+                try {
+                    eStartDt=new SimpleDateFormat("MM-dd-yyyy HH:mm").parse(strStartDtET);
+                    eRepeatEndDt =new SimpleDateFormat("MM-dd-yyyy HH:mm").parse(strEndDtET);;
+                    eEndDt=new SimpleDateFormat("MMM dd yyyy").parse(strRepeatEndDtET);;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try{
+                    ParseObject eventObj= new ParseObject("Events");
+                    eventObj.put("eventName",eName);
+                    eventObj.put("eventDescription",eDescription);
+                    eventObj.put("eventLocation",eLocation);
+                    eventObj.put("eventRecurrence",eRecurrence);
+                    eventObj.put("eventRepeatEvery",eRepeatEvery);
+                    eventObj.put("isSun",booleanIsSun);
+                    eventObj.put("isMon",booleanIsMon);
+                    eventObj.put("isTues",booleanIsTues);
+                    eventObj.put("isWed",booleanIsWed);
+                    eventObj.put("isThurs",booleanIsThurs);
+                    eventObj.put("isFri",booleanIsFri);
+                    eventObj.put("isSat",booleanIsSat);
+                    eventObj.put("eventEndDt",eEndDt);
+                    eventObj.put("eventStartDt", eStartDt);
+                    eventObj.put("eventRepeatEndDt",eRepeatEndDt);
+
+                    eventObj.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(com.parse.ParseException e) {
+                            progressDialog.dismiss();
+                            if (e == null) {
+                                // Success
+                                showAlert("Successfully saved..!\n", "Your object has been saved in Events class.");
+                            }else {
+                                // Error
+                                Toast.makeText(CreateEventActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+
+
+                }catch (Exception e){
+                    Toast.makeText(CreateEventActivity.this,e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                startActivity(new Intent(CreateEventActivity.this, EventHomeActivity.class));
+            }else{
+                Toast.makeText(CreateEventActivity.this, "Fill in all Fields", Toast.LENGTH_LONG).show();
+            }
+
         });
         cancelCreateBtn.setOnClickListener(v -> {
             startActivity(new Intent(CreateEventActivity.this, EventHomeActivity.class));
@@ -189,4 +307,21 @@ public class CreateEventActivity extends AppCompatActivity {
         return "JAN";
     }
 
+    private void showAlert(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(CreateEventActivity.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        // don't forget to change the line below with the names of your Activities
+                        Intent intent = new Intent(CreateEventActivity.this, EventHomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog ok = builder.create();
+        ok.show();
+    }
 }

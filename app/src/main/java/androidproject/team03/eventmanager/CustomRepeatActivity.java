@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,12 +94,53 @@ public class CustomRepeatActivity extends AppCompatActivity {
             CustomRepeatActivity.this.finish();
         });
         repeatDoneBtn.setOnClickListener(v -> {
-            Spinner everySpinner = findViewById(R.id.spinnerRepeatEvery);
-            String strEvery = everySpinner.getTooltipText().toString();
-            Log.v("strEvery",strEvery);
-            setResult(RESULT_OK,intent1);
-            Log.v("Info","Done Repeat options");
-            CustomRepeatActivity.this.finish();
+            Spinner sEvery = findViewById(R.id.spinnerEvery);
+            String sRecurrence = sEvery.getSelectedItem().toString();;
+            Spinner sRepeatEvery = findViewById(R.id.spinnerRepeatEvery);
+            String strRepeatEvery = sRepeatEvery.getSelectedItem().toString();
+            CheckBox isSunChk, isMonChk, isTuesChk, isWedChk, isThursChk, isFriChk, isSatChk;
+            isSunChk = findViewById(R.id.checkBoxSun);
+            isMonChk = findViewById(R.id.checkBoxMon);
+            isTuesChk= findViewById(R.id.checkBoxTues);
+            isWedChk = findViewById(R.id.checkBoxWed);
+            isThursChk= findViewById(R.id.checkBoxThurs);
+            isFriChk= findViewById(R.id.checkBoxFri);
+            isSatChk= findViewById(R.id.checkBoxSat);
+            Log.v("strRepeatEvery",strRepeatEvery);
+            if(strRepeatEvery.matches("EveryWeek")){
+                if(isSunChk.isChecked() || isMonChk.isChecked() || isTuesChk.isChecked() || isWedChk.isChecked() || isThursChk.isChecked() || isFriChk.isChecked() || isSatChk.isChecked()){
+
+                    intent1.putExtra("isSun", isSunChk.isChecked());
+                    intent1.putExtra("isMon", isMonChk.isChecked());
+                    intent1.putExtra("isTues", isTuesChk.isChecked());
+                    intent1.putExtra("isWed", isWedChk.isChecked());
+                    intent1.putExtra("isThus", isThursChk.isChecked());
+                    intent1.putExtra("isFri", isFriChk.isChecked());
+                    intent1.putExtra("isSat", isSatChk.isChecked());
+                    intent1.putExtra("eventRecurrence", sRecurrence);
+                    intent1.putExtra("eventRepeatEvery", strRepeatEvery);
+
+                    setResult(RESULT_OK,intent1);
+                    Log.v("Info","Done Repeat options");
+                    CustomRepeatActivity.this.finish();
+                }else{
+                    Toast.makeText(CustomRepeatActivity.this, "Please select the check boxes for weekdays", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                intent1.putExtra("isSun", Boolean.FALSE);
+                intent1.putExtra("isMon", Boolean.FALSE);
+                intent1.putExtra("isTues", Boolean.FALSE);
+                intent1.putExtra("isWed", Boolean.FALSE);
+                intent1.putExtra("isThus", Boolean.FALSE);
+                intent1.putExtra("isFri", Boolean.FALSE);
+                intent1.putExtra("isSat", Boolean.FALSE);
+                intent1.putExtra("eventRecurrence", sRecurrence);
+                intent1.putExtra("eventRepeatEvery", strRepeatEvery);
+                setResult(RESULT_OK,intent1);
+                Log.v("Info","Done Repeat options");
+                CustomRepeatActivity.this.finish();
+            }
+
         });
     }
 }
