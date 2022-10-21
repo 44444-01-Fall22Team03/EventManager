@@ -1,9 +1,12 @@
 package androidproject.team03.eventmanager;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,10 +20,12 @@ public class CustomRepeatActivity extends AppCompatActivity {
 
     private Button repeatCancelBtn, repeatDoneBtn;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_repeat);
+        Intent intent1 = getIntent();
 
         repeatCancelBtn=findViewById(R.id.btnRepeatCancel);
         repeatDoneBtn=findViewById(R.id.btnRepeatDone);
@@ -82,10 +87,17 @@ public class CustomRepeatActivity extends AppCompatActivity {
         });
 
         repeatCancelBtn.setOnClickListener(v -> {
-            startActivity(new Intent(CustomRepeatActivity.this, CreateEventActivity.class));
+            setResult(RESULT_CANCELED,intent1);
+            Log.v("Info","Cancelled Repeat options");
+            CustomRepeatActivity.this.finish();
         });
         repeatDoneBtn.setOnClickListener(v -> {
-            startActivity(new Intent(CustomRepeatActivity.this, CreateEventActivity.class));
+            Spinner everySpinner = findViewById(R.id.spinnerRepeatEvery);
+            String strEvery = everySpinner.getTooltipText().toString();
+            Log.v("strEvery",strEvery);
+            setResult(RESULT_OK,intent1);
+            Log.v("Info","Done Repeat options");
+            CustomRepeatActivity.this.finish();
         });
     }
 }
