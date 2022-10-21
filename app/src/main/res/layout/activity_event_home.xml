@@ -34,7 +34,7 @@
             android:hint="Search Event"
             android:padding="5dp"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColorHint="#CFCFCF"
             android:inputType="text"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/ivSearch"

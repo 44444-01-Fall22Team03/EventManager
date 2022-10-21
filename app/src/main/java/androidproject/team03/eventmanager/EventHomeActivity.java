@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ import java.util.List;
 public class EventHomeActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
-    private ImageView ivCreatebtn;
+    private ImageView ivCreatebtn, ivSearchDate, ivSearchEvent;
 
     private EventModel myModel1 = EventModel.getSingleton();
     private EventRAdapter eventServer = null;
@@ -41,6 +42,17 @@ public class EventHomeActivity extends AppCompatActivity {
         dateButton.setText(getTodaysDate());
         ivCreatebtn = findViewById(R.id.ivCreateEvent);
 
+        ivSearchDate= findViewById(R.id.ivDateSearch);
+        ivSearchEvent= findViewById(R.id.ivSearch);
+
+
+        ivSearchEvent.setOnClickListener(v -> {
+            EditText searchEventET = findViewById(R.id.etSearchtext);
+            String searchText = searchEventET.getText().toString();
+            if(searchText.matches("")){
+                Toast.makeText(EventHomeActivity.this, "Search field is Empty.\nPlease input text and try again", Toast.LENGTH_LONG).show();
+            }
+        });
 
         ivCreatebtn.setOnClickListener(v -> {
             startActivity(new Intent(EventHomeActivity.this, CreateEventActivity.class));
