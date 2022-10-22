@@ -1,10 +1,13 @@
 package androidproject.team03.eventmanager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +22,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Calendar;
 import java.util.List;
@@ -26,7 +30,8 @@ import java.util.List;
 public class EventHomeActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
-    private ImageView ivCreatebtn, ivSearchDate, ivSearchEvent;
+    private ImageView logoutBtn, ivCreatebtn, ivSearchDate, ivSearchEvent;
+    private ProgressDialog progressDialog;
 
     private EventModel myModel1 = EventModel.getSingleton();
     private EventRAdapter eventServer = null;
@@ -38,9 +43,11 @@ public class EventHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_home);
         setUpEventModels();
         initDatePicker();
+        progressDialog = new ProgressDialog(EventHomeActivity.this);
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
         ivCreatebtn = findViewById(R.id.ivCreateEvent);
+        logoutBtn = findViewById(R.id.ivlogout);
 
         ivSearchDate= findViewById(R.id.ivDateSearch);
         ivSearchEvent= findViewById(R.id.ivSearch);
@@ -58,6 +65,15 @@ public class EventHomeActivity extends AppCompatActivity {
             startActivity(new Intent(EventHomeActivity.this, CreateEventActivity.class));
         });
 
+        logoutBtn.setOnClickListener(v ->{
+            progressDialog.show();
+            // logging out of Parse
+            ParseUser.logOutInBackground(e -> {
+                progressDialog.dismiss();
+                if (e == null)
+                    showAlert("So, you're going...", "Ok...Bye-bye...!");
+            });
+        });
     }
 
     private void setUpEventModels() {
@@ -178,5 +194,21 @@ public class EventHomeActivity extends AppCompatActivity {
         return "Jan";
     }
 
-
+    private void showAlert(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(EventHomeActivity.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        // don't forget to change the line below with the names of your Activities
+                        Intent intent = new Intent(EventHomeActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog ok = builder.create();
+        ok.show();
+    }
 }
