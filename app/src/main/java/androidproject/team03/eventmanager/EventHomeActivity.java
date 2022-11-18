@@ -24,8 +24,11 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EventHomeActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
@@ -80,6 +83,23 @@ public class EventHomeActivity extends AppCompatActivity {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
         Log.v("setUpEventModels", "fetched data");
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+        String formattedDate = df.format(date);
+
+        Date dateToday = null;
+        try {
+            dateToday = new SimpleDateFormat("MM-dd-yyyy").parse(formattedDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        Log.v("today's Date: ", dateToday.toString());
+        calendar.setTime(dateToday);
+        calendar.add(Calendar.DATE, 1);
+        Date dateTomorrow = calendar.getTime();
+        Log.v("tomorrow's Date: ", dateTomorrow.toString());
+        query.whereGreaterThanOrEqualTo("eventStartDt", dateToday).whereLessThan("eventStartDt", dateTomorrow);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {

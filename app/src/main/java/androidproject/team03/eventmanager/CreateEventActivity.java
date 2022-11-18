@@ -55,11 +55,11 @@ public class CreateEventActivity extends AppCompatActivity {
                     booleanIsThurs=result.getData().getBooleanExtra("isThus", Boolean.FALSE);
                     booleanIsFri=result.getData().getBooleanExtra("isFri", Boolean.FALSE);
                     booleanIsSat=result.getData().getBooleanExtra("isSat", Boolean.FALSE);
-                    Log.v("info", "using the result");
+                    Log.v("info", "using the result"+result.getData().toString());
 
                 }
                 catch(Exception e) {
-                    Toast.makeText(CreateEventActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateEventActivity.this, "ResultsOK "+e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -84,6 +84,7 @@ public class CreateEventActivity extends AppCompatActivity {
         date_time_end.setInputType(InputType.TYPE_NULL);
         dateButton = findViewById(R.id.btnRepeatEndDate);
 
+        dateButton.setText(getTodaysDate());
 
         createEventBtn.setOnClickListener(v -> {
             boolean flagChk =true;
@@ -96,16 +97,16 @@ public class CreateEventActivity extends AppCompatActivity {
             eEndDtET = findViewById(R.id.Endtime);
             eRepeatEndDtET = findViewById(R.id.btnRepeatEndDate);
 
-            String strName, strStartDtET, strEndDtET, strLocation, strDescription, strRepeatEndDtET;
+            String strStartDtET, strEndDtET, strRepeatEndDtET;
 
-            strName= eNameET.getText().toString();
+            eName= eNameET.getText().toString();
             strStartDtET= eStartDtET.getText().toString();
             strEndDtET= eEndDtET.getText().toString();
-            strLocation= eLocationET.getText().toString();
-            strDescription= eDescriptionET.getText().toString();
+            eLocation= eLocationET.getText().toString();
+            eDescription= eDescriptionET.getText().toString();
             strRepeatEndDtET= eRepeatEndDtET.getText().toString();
 
-            if(strName.matches("")){
+            if(eName.matches("")){
                 flagChk= Boolean.FALSE;
                 Log.v("strName:","is Empty");
             }
@@ -117,11 +118,11 @@ public class CreateEventActivity extends AppCompatActivity {
                 flagChk= Boolean.FALSE;
                 Log.v("strEndDtET:","is Empty");
             }
-            if(strLocation.matches("")){
+            if(eLocation.matches("")){
                 flagChk= Boolean.FALSE;
                 Log.v("strLocation:","is Empty");
             }
-            if(strDescription.matches("")){
+            if(eDescription.matches("")){
                 flagChk= Boolean.FALSE;
                 Log.v("strName:","is Empty");
             }
@@ -133,8 +134,8 @@ public class CreateEventActivity extends AppCompatActivity {
             if(flagChk){
                 try {
                     eStartDt=new SimpleDateFormat("MM-dd-yyyy HH:mm").parse(strStartDtET);
-                    eRepeatEndDt =new SimpleDateFormat("MM-dd-yyyy HH:mm").parse(strEndDtET);;
-                    eEndDt=new SimpleDateFormat("MMM dd yyyy").parse(strRepeatEndDtET);;
+                    eRepeatEndDt =new SimpleDateFormat("MM-dd-yyyy HH:mm").parse(strRepeatEndDtET);
+                    eEndDt=new SimpleDateFormat("MMM dd yyyy").parse(strEndDtET);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -156,6 +157,9 @@ public class CreateEventActivity extends AppCompatActivity {
                     eventObj.put("eventStartDt", eStartDt);
                     eventObj.put("eventRepeatEndDt",eRepeatEndDt);
 
+                    String str= "eventName"+eName+ "eventDescription"+eDescription+ "eventLocation"+eLocation+ "eventRecurrence"+eRecurrence+ "eventRepeatEvery"+eRepeatEvery+ "isSun"+booleanIsSun+ "isMon"+booleanIsMon+ "isTues"+booleanIsTues+ "isWed"+booleanIsWed+ "isThurs"+booleanIsThurs+ "isFri"+booleanIsFri+ "isSat"+booleanIsSat+ "eventEndDt"+eEndDt+ "eventStartDt"+ eStartDt+ "eventRepeatEndDt"+eRepeatEndDt;
+
+                    Log.v("String Data:",str);
                     eventObj.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
@@ -165,7 +169,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                 showAlert("Successfully saved..!\n", "Your object has been saved in Events class.");
                             }else {
                                 // Error
-                                Toast.makeText(CreateEventActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(CreateEventActivity.this, "SaveInBackground "+e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
