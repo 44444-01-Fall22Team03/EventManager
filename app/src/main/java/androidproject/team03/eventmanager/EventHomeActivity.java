@@ -1,7 +1,10 @@
 package androidproject.team03.eventmanager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -33,7 +38,7 @@ import java.util.Locale;
 public class EventHomeActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
-    private ImageView logoutBtn, ivCreatebtn, ivSearchDate, ivSearchEvent;
+    private ImageView logoutBtn, ivCreatebtn, ivSearchDate, ivSearchEvent,ivMenu;
     private ProgressDialog progressDialog;
 
     private EventModel myModel1 = EventModel.getSingleton();
@@ -54,7 +59,6 @@ public class EventHomeActivity extends AppCompatActivity {
 
         ivSearchDate= findViewById(R.id.ivDateSearch);
         ivSearchEvent= findViewById(R.id.ivSearch);
-
 
         ivSearchEvent.setOnClickListener(v -> {
             EditText searchEventET = findViewById(R.id.etSearchtext);
@@ -78,6 +82,56 @@ public class EventHomeActivity extends AppCompatActivity {
                 if (e == null)
                     showAlert("So, you're going...", "Ok...Bye-bye...!");
             });
+        });
+
+        ivMenu = findViewById(R.id.ivMenuIcon);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+
+        ivMenu.setOnClickListener(v -> {
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
+        navigationView.bringToFront();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
+                int id = item.getItemId();
+
+                Log.v("Inside:","onNavigationItemSelected");
+                switch (id){
+                    case R.id.nav_event_home:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(EventHomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
+                        Intent intent = getIntent();
+                        overridePendingTransition(0, 0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(intent);break;
+                    case R.id.nav_add_event:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(EventHomeActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EventHomeActivity.this, CreateEventActivity.class));
+                        break;
+                    case R.id.nav_logout:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(EventHomeActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
+                        progressDialog.show();
+                        // logging out of Parse
+                        ParseUser.logOutInBackground(e -> {
+                            progressDialog.dismiss();
+                            if (e == null)
+                                showAlert("So, you're going...", "Ok...Bye-bye...!");
+                        });
+                        break;
+                    default:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                }
+
+                return true;
+            }
         });
     }
 
