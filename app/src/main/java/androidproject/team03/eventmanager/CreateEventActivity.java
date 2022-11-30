@@ -67,6 +67,7 @@ public class CreateEventActivity extends AppCompatActivity {
     });
 
     private Button createEventBtn, cancelCreateBtn, repeatButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,8 +135,8 @@ public class CreateEventActivity extends AppCompatActivity {
             if(flagChk){
                 try {
                     eStartDt=new SimpleDateFormat("MM-dd-yyyy HH:mm").parse(strStartDtET);
-                    eRepeatEndDt =new SimpleDateFormat("MM-dd-yyyy HH:mm").parse(strRepeatEndDtET);
-                    eEndDt=new SimpleDateFormat("MMM dd yyyy").parse(strEndDtET);
+                    eRepeatEndDt =new SimpleDateFormat("MMM dd yyyy").parse(strRepeatEndDtET);
+                    eEndDt=new SimpleDateFormat("MM-dd-yyyy HH:mm").parse(strEndDtET);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
