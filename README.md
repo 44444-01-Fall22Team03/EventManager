@@ -6,14 +6,18 @@
 [![Contributors][contributors-shield]][contributors-url]
 [![Supervisors][supervisors-shield]][supervisors-url]
 
+
+<!-- USERNAME AND PASSWORD -->
+## Username and Password
+* Username : chandu97
+* password : chandu97
+
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
 ### Project Proposal: Event Manager
 
-### Username and Password
-* Username : chandu97
-* password : chandu97
+
 
 #### Activity1: Events Home Page
 *	Search bar for searching the events 
