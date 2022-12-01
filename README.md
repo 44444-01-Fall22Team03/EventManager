@@ -17,7 +17,13 @@
 
 ### Project Proposal: Event Manager
 
-
+### Project Requirements or prequisites
+* Android studio version dolphin 2021.3.1
+* Virtual Box
+* Genymotion version 3.2.1 used as emulator
+* Back4app database
+* Backend code java
+* UI xml code
 
 #### Activity1: Events Home Page
 *	Search bar for searching the events 
