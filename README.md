@@ -11,6 +11,10 @@
 
 ### Project Proposal: Event Manager
 
+### Username and Password
+* Username : chandu97
+* password : chandu97
+
 #### Activity1: Events Home Page
 *	Search bar for searching the events 
 *	If we select date then it will show the event scheduled on that particular date.
