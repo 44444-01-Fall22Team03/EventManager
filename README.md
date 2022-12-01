@@ -54,7 +54,7 @@
 
 ### Collaborators:
 * [Jaichand Mulakalapalli](https://github.com/jaichandm)
-* [MANOJ_KUMAR_GUDE](https://github.com/manoj2205)
+* [Manoj Kumar Gude](https://github.com/manoj2205)
 * [Manikanta Arumilli](https://github.com/manikantaarumilli)
 
 Supervisor:
